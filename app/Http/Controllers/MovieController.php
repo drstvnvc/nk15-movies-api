@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateMovieRequest;
+use App\Http\Requests\UpdateMovieRequest;
 use App\Models\Movie;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class MovieController extends Controller
@@ -25,16 +28,10 @@ class MovieController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateMovieRequest $request)
     {
-        $movie = Movie::create([
-            'title' => $request->get('title'),
-            'director' => $request->get('director'),
-            'image_url' => $request->get('image_url'),
-            'duration' => $request->get('duration'),
-            'release_date' => $request->get('release_date'),
-            'genre' => $request->get('genre'),
-        ]);
+        $data = $request->validated();
+        $movie = Movie::create($data);
 
         return response()->json($movie, 201);
     }
@@ -57,9 +54,11 @@ class MovieController extends Controller
      * @param  \App\Models\Movie  $movie
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Movie $movie)
+    public function update(UpdateMovieRequest $request, Movie $movie)
     {
-        $movie->update($request->all());
+        $data = $request->validated();
+        $movie->update($data);
+
         return response()->json($movie);
     }
 
