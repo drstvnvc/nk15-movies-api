@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateMovieRequest;
 use App\Http\Requests\UpdateMovieRequest;
 use App\Models\Movie;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class MovieController extends Controller
 {
@@ -19,7 +17,13 @@ class MovieController extends Controller
     public function index(Request $request)
     {
         $title = $request->query('title', '');
-        $movies = Movie::searchByTitle($title)->get();
+        $per_page = $request->query('per_page', 10);
+
+        $movies = Movie::searchByTitle($title)
+            ->paginate($per_page);
+        // ->limit($request->query('take', 10))
+        // ->offset($request->query('skip', 0))
+        // ->get();
 
         return response()->json($movies);
     }
