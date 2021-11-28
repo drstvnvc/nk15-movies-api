@@ -35,7 +35,7 @@ class UpdateMovieRequest extends FormRequest
             'title' => 'string|max:255',
             'director' => 'string|max:255',
             'image_url' => 'url',
-            'duration' => 'number|min:1|max:600',
+            'duration' => 'integer|min:1|max:600',
             'release_date' => 'date',
             'genre' => 'in:' . implode(',', $this->genres),
         ];
