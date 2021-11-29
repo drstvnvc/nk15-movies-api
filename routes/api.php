@@ -16,9 +16,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/movies', [MovieController::class, 'index'])->middleware('auth:api');
+Route::get('/movies', [MovieController::class, 'index']);
 Route::get('/movies/{movie}', [MovieController::class, 'show']);
-Route::post('/movies', [MovieController::class, 'store']);
+Route::post('/movies', [MovieController::class, 'store'])->middleware('auth:api');
 Route::put('/movies/{movie}', [MovieController::class, 'update']);
 Route::delete('/movies/{movie}', [MovieController::class, 'destroy']);
 
@@ -28,8 +28,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::post('/auth/login', [AuthController::class, 'login']);
-Route::get('/auth/me', [AuthController::class, 'getActiveUser'])->middleware('auth:api');
 Route::post('/auth/register', [AuthController::class, 'register']);
+Route::get('/auth/me', [AuthController::class, 'getActiveUser'])->middleware('auth:api');
 Route::post('/auth/logout', [AuthController::class, 'logout'])->middleware('auth:api');
 
 Route::post('/auth/refresh', [AuthController::class, 'refreshToken']);
